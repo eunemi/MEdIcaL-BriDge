@@ -1,0 +1,326 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  PATIENT
+  DOCTOR
+  STAFF
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum VisaStatus {
+  PENDING
+  UNDER_REVIEW
+  LETTER_ISSUED
+  APPROVED
+  REJECTED
+}
+
+enum TicketCategory {
+  TRAVEL
+  ACCOMMODATION
+  BILLING
+  MEDICAL
+  GENERAL
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+// ─── Core Identity ───────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(PATIENT)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  patientProfile Patient?
+  doctorProfile  Doctor?
+  adminProfile   Admin?
+}
+
+// ─── Reference Data ──────────────────────────────────────
+
+model Country {
+  id           String    @id @default(cuid())
+  name         String    @unique
+  code         String    @unique
+  phoneCode    String
+  currency     String    @default("USD")
+  requiresVisa Boolean   @default(true)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+
+  patients Patient[]
+}
+
+// ─── Patient ─────────────────────────────────────────────
+
+model Patient {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  fullName              String
+  phoneNumber           String
+  passportNumber        String?  @unique
+  preferredCity         String?
+  medicalHistorySummary String?  @db.Text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  countryId        String
+  country          Country           @relation(fields: [countryId], references: [id])
+  appointments     Appointment[]
+  reports          Report[]
+  reviews          Review[]
+  visaApplications VisaApplication[]
+
+  @@index([userId])
+  @@index([countryId])
+}
+
+// ─── Hospital ────────────────────────────────────────────
+
+model Hospital {
+  id            String   @id @default(cuid())
+  name          String
+  city          String
+  accreditation String
+  rating        Float    @default(0.0)
+  description   String   @db.Text
+  image         String?
+  address       String
+  gallery       String   @db.Text @default("[]")
+  contactEmail  String
+  contactPhone  String
+  specialties   String   @db.Text @default("[]")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  doctors    Doctor[]
+  treatments HospitalTreatment[]
+  reviews    Review[]
+
+  @@index([city])
+  @@index([rating])
+}
+
+// ─── Doctor ──────────────────────────────────────────────
+
+model Doctor {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  fullName        String
+  specialty       String
+  experienceYears Int
+  rating          Float    @default(0.0)
+  languages       String
+  consultationFee Decimal  @db.Decimal(10, 2)
+  education       String   @db.Text
+  biography       String   @db.Text
+  certifications  String   @db.Text
+  successRate     Float    @default(0.0)
+  image           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospitalId   String
+  hospital     Hospital      @relation(fields: [hospitalId], references: [id])
+  appointments Appointment[]
+  reviews      Review[]
+
+  @@index([userId])
+  @@index([hospitalId])
+  @@index([specialty])
+}
+
+// ─── Treatment ───────────────────────────────────────────
+
+model Treatment {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  category     String
+  description  String   @db.Text
+  recoveryTime String
+  risks        String   @db.Text
+  image        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  hospitals    HospitalTreatment[]
+  appointments Appointment[]
+
+  @@index([category])
+}
+
+// ─── Hospital ↔ Treatment (M:N with cost) ────────────────
+
+model HospitalTreatment {
+  hospitalId  String
+  treatmentId String
+  averageCost Decimal @db.Decimal(10, 2)
+
+  hospital  Hospital  @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  treatment Treatment @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+
+  @@id([hospitalId, treatmentId])
+  @@index([hospitalId])
+  @@index([treatmentId])
+}
+
+// ─── Appointment ─────────────────────────────────────────
+
+model Appointment {
+  id              String            @id @default(cuid())
+  patientId       String
+  doctorId        String
+  treatmentId     String
+  appointmentDate DateTime
+  status          AppointmentStatus @default(PENDING)
+  consultationFee Decimal           @db.Decimal(10, 2)
+  notes           String?           @db.Text
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  patient   Patient   @relation(fields: [patientId], references: [id], onDelete: Restrict)
+  doctor    Doctor    @relation(fields: [doctorId], references: [id], onDelete: Restrict)
+  treatment Treatment @relation(fields: [treatmentId], references: [id], onDelete: Restrict)
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([treatmentId])
+  @@index([appointmentDate])
+}
+
+// ─── Medical Reports ─────────────────────────────────────
+
+model Report {
+  id          String   @id @default(cuid())
+  patientId   String
+  fileUrl     String
+  fileName    String
+  fileType    String
+  fileSize    Int
+  description String?  @db.Text
+  uploadedAt  DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@index([patientId])
+}
+
+// ─── Reviews ─────────────────────────────────────────────
+
+model Review {
+  id         String   @id @default(cuid())
+  patientId  String
+  doctorId   String?
+  hospitalId String?
+  rating     Int
+  comment    String   @db.Text
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  patient  Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor   Doctor?   @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+  hospital Hospital? @relation(fields: [hospitalId], references: [id], onDelete: SetNull)
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([hospitalId])
+}
+
+// ─── Visa Applications ──────────────────────────────────
+
+model VisaApplication {
+  id            String     @id @default(cuid())
+  patientId     String
+  passportNum   String
+  countryOfVisa String
+  status        VisaStatus @default(PENDING)
+  documentUrl   String?
+  invitationUrl String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@index([patientId])
+}
+
+// ─── Support Tickets ─────────────────────────────────────
+
+model SupportTicket {
+  id          String         @id @default(cuid())
+  patientId   String
+  subject     String
+  description String         @db.Text
+  category    TicketCategory @default(GENERAL)
+  priority    TicketPriority @default(LOW)
+  status      TicketStatus   @default(OPEN)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  messages ChatMessage[]
+
+  @@index([patientId])
+  @@index([status])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  ticketId  String
+  senderId  String
+  message   String   @db.Text
+  fileUrl   String?
+  createdAt DateTime @default(now())
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+// ─── Admin ───────────────────────────────────────────────
+
+model Admin {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  fullName   String
+  department String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

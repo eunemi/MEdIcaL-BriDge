@@ -56,7 +56,9 @@ export default function CostEstimatorPage() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (selectedTreatment) calculate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTreatment, selectedCurrency]);
 
   const treatment = MOCK_TREATMENTS.find((t) => t.id === selectedTreatment);

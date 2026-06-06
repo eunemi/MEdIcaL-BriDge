@@ -1,8 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import { signToken } from "@/lib/auth";
 
-// Strict Prisma DB connection for real users
+const DEMO_USERS = [
+  {
+    userId: "pat_1",
+    email: "patient@demo.com",
+    password: "password123",
+    role: "PATIENT",
+    fullName: "Demo Patient",
+  },
+  {
+    userId: "doc_1",
+    email: "doctor@demo.com",
+    password: "password123",
+    role: "DOCTOR",
+    fullName: "Dr. Demo Doctor",
+  },
+  {
+    userId: "adm_1",
+    email: "admin@demo.com",
+    password: "password123",
+    role: "ADMIN",
+    fullName: "Admin User",
+  },
+];
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,42 +37,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Try Prisma first
-    let user: {
-      userId: string;
-      passwordHash: string;
-      role: string;
-      fullName: string;
-    } | null = null;
-
-    try {
-      const { prisma } = await import("@/lib/prisma");
-      const dbUser = await prisma.user.findUnique({
-        where: { email },
-        include: {
-          patientProfile: true,
-          doctorProfile: true,
-          adminProfile: true,
-        },
-      });
-
-      if (dbUser) {
-        const profile =
-          dbUser.patientProfile ?? dbUser.doctorProfile ?? dbUser.adminProfile;
-        user = {
-          userId: dbUser.id,
-          passwordHash: dbUser.passwordHash,
-          role: dbUser.role,
-          fullName: profile?.fullName ?? email.split("@")[0],
-        };
-      }
-    } catch (dbError) {
-      console.error("[LOGIN DB ERROR]", dbError);
-      return NextResponse.json(
-        { error: "Database connection failed" },
-        { status: 500 }
-      );
-    }
+    const user = DEMO_USERS.find((u) => u.email === email && u.password === password);
 
     if (!user) {
       return NextResponse.json(
@@ -60,24 +46,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const valid = await bcrypt.compare(password, user.passwordHash);
-    if (!valid) {
-      return NextResponse.json(
-        { error: "Invalid email or password" },
-        { status: 401 }
-      );
-    }
-
     const token = signToken({
       userId: user.userId,
-      email,
+      email: user.email,
       role: user.role,
     });
 
     const response = NextResponse.json({
       user: {
         userId: user.userId,
-        email,
+        email: user.email,
         role: user.role,
         fullName: user.fullName,
       },

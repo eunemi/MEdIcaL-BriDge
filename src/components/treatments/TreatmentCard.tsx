@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Clock, TrendingUp, CheckCircle2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+// Removed unused Badge import
 import { Button } from "@/components/ui/button";
 import { MockTreatment } from "@/lib/data";
 

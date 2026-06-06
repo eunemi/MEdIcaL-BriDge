@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  MapPin, Globe2, DollarSign, GraduationCap,
+  MapPin, Globe2, GraduationCap,
   Award, CheckCircle2, ChevronRight, Calendar, ArrowRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";

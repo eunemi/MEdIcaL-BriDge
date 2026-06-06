@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Star, MapPin, ArrowRight, Globe2, DollarSign } from "lucide-react";
+import { MapPin, ArrowRight, Globe2, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MockDoctor } from "@/lib/data";
 import { StarRating } from "@/components/shared/StarRating";

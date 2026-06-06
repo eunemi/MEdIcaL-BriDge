@@ -85,27 +85,11 @@ export async function POST(request: NextRequest) {
 
       return response;
     } catch (dbError: unknown) {
-      const errMsg = dbError instanceof Error ? dbError.message : "";
-      if (errMsg.includes("DATABASE_URL")) {
-        // No DB — create mock session
-        const userId = `user-${Date.now()}`;
-        const token = signToken({ userId, email, role: "PATIENT" });
-
-        const response = NextResponse.json({
-          user: { userId, email, role: "PATIENT", fullName },
-        });
-
-        response.cookies.set("auth-token", token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "lax",
-          maxAge: 60 * 60 * 24 * 7,
-          path: "/",
-        });
-
-        return response;
-      }
-      throw dbError;
+      console.error("[REGISTER DB ERROR]", dbError);
+      return NextResponse.json(
+        { error: "Database connection failed" },
+        { status: 500 }
+      );
     }
   } catch (error) {
     console.error("[REGISTER ERROR]", error);

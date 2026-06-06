@@ -2,25 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { signToken } from "@/lib/auth";
 
-// Mock user store for development (no DB required)
-// Real users: try Prisma first, fallback to this map
-const DEMO_USERS: Record<
-  string,
-  { userId: string; passwordHash: string; role: string; fullName: string }
-> = {
-  "patient@demo.com": {
-    userId: "demo-patient-001",
-    passwordHash: "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi", // password
-    role: "PATIENT",
-    fullName: "Demo Patient",
-  },
-  "admin@demo.com": {
-    userId: "demo-admin-001",
-    passwordHash: "$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi", // password
-    role: "ADMIN",
-    fullName: "Demo Admin",
-  },
-};
+// Strict Prisma DB connection for real users
 
 export async function POST(request: NextRequest) {
   try {
@@ -63,14 +45,12 @@ export async function POST(request: NextRequest) {
           fullName: profile?.fullName ?? email.split("@")[0],
         };
       }
-    } catch {
-      // DB not available — use demo store
-    }
-
-    // Fallback to demo users
-    if (!user) {
-      const demo = DEMO_USERS[email.toLowerCase()];
-      if (demo) user = demo;
+    } catch (dbError) {
+      console.error("[LOGIN DB ERROR]", dbError);
+      return NextResponse.json(
+        { error: "Database connection failed" },
+        { status: 500 }
+      );
     }
 
     if (!user) {
@@ -82,13 +62,10 @@ export async function POST(request: NextRequest) {
 
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) {
-      // Allow "password" as a fallback for demo users
-      if (password !== "password") {
-        return NextResponse.json(
-          { error: "Invalid email or password" },
-          { status: 401 }
-        );
-      }
+      return NextResponse.json(
+        { error: "Invalid email or password" },
+        { status: 401 }
+      );
     }
 
     const token = signToken({

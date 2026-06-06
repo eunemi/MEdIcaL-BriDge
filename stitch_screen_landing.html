@@ -1,0 +1,428 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MediBridge India - World-Class Healthcare</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#181c1b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#7ebdac",
+                        "secondary-container": "#fed65b",
+                        "outline-variant": "#bfc9c4",
+                        "error-container": "#ffdad6",
+                        "outline": "#707975",
+                        "primary-fixed-dim": "#94d3c1",
+                        "on-secondary-fixed": "#241a00",
+                        "tertiary-container": "#404442",
+                        "primary-fixed": "#afefdd",
+                        "on-primary-fixed-variant": "#065043",
+                        "tertiary-fixed": "#e0e3e0",
+                        "error": "#ba1a1a",
+                        "primary": "#00342b",
+                        "inverse-primary": "#94d3c1",
+                        "secondary-fixed-dim": "#e9c349",
+                        "surface-container-high": "#eae7e7",
+                        "on-tertiary-fixed-variant": "#444846",
+                        "tertiary-fixed-dim": "#c4c7c5",
+                        "primary-container": "#004d40",
+                        "on-background": "#1c1b1b",
+                        "on-surface-variant": "#3f4945",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-container": "#f0eded",
+                        "inverse-surface": "#313030",
+                        "on-error-container": "#93000a",
+                        "secondary": "#735c00",
+                        "surface-bright": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00201a",
+                        "surface-variant": "#e5e2e1",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-tint": "#29695b",
+                        "surface-container-low": "#f6f3f2",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#574500",
+                        "surface-dim": "#dcd9d9",
+                        "tertiary": "#2a2e2c",
+                        "on-tertiary-container": "#adb1ae",
+                        "surface": "#fcf9f8",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffe088",
+                        "on-secondary-container": "#745c00",
+                        "on-surface": "#1c1b1b",
+                        "background": "#fcf9f8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "gutter": "32px",
+                        "xl": "80px",
+                        "sm": "12px",
+                        "xs": "4px",
+                        "lg": "48px",
+                        "md": "24px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "label-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Manrope"],
+                        "label-sm": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Utilities for Billion-Dollar Aesthetic */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 4px 24px -1px rgba(0, 52, 43, 0.05),
+                0 16px 40px -4px rgba(0, 52, 43, 0.05);
+        }
+        
+        .gold-border-gradient {
+            position: relative;
+        }
+        .gold-border-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            background: linear-gradient(135deg, #ffe088 0%, rgba(255, 224, 136, 0.2) 50%, #fed65b 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .ambient-shadow {
+            box-shadow: 
+                0 8px 16px -4px rgba(0, 52, 43, 0.05),
+                0 24px 48px -12px rgba(0, 52, 43, 0.1);
+        }
+
+        .metallic-text {
+            background: linear-gradient(to right, #735c00, #b38f00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Fluid Typography scaling for massive headers */
+        .fluid-display {
+            font-size: clamp(3rem, 5vw + 1rem, 5rem);
+            line-height: 1.1;
+        }
+
+        /* High-End Motion & Micro-interactions */
+        @media (prefers-reduced-motion: no-preference) {
+            .animate-slide-up-1 { animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; opacity: 0; transform: translateY(40px); }
+            .animate-slide-up-2 { animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; opacity: 0; transform: translateY(40px); }
+            .animate-slide-up-3 { animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; opacity: 0; transform: translateY(40px); }
+            
+            .animate-reveal { animation: softReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; opacity: 0; }
+            
+            .animate-glide-right { animation: glideRight 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards; opacity: 0; transform: translateX(60px); }
+            .animate-glide-left { animation: glideLeft 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards; opacity: 0; transform: translateX(-60px); }
+        }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes softReveal {
+            from { opacity: 0; filter: blur(8px); transform: translateY(10px); }
+            to { opacity: 1; filter: blur(0); transform: translateY(0); }
+        }
+        @keyframes glideRight {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes glideLeft {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .shimmer-hover {
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.4s ease;
+        }
+        .shimmer-hover::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.5);
+            pointer-events: none;
+            z-index: 10;
+        }
+        .shimmer-hover:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .sheen-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .sheen-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10;
+        }
+        .sheen-btn:hover::before {
+            left: 150%;
+        }
+
+        .trust-badge-hover {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+        }
+        .trust-badge-hover:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 24px -8px rgba(0, 52, 43, 0.15);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar (From JSON + Design System) -->
+<header class="fixed top-0 w-full z-50 transition-all duration-300" id="main-nav">
+<div class="bg-white/90 dark:bg-primary/90 backdrop-blur-2xl border-b border-secondary-fixed/20 shadow-[0_8px_32px_rgba(0,52,43,0.08)] transition-all duration-500">
+<div class="flex justify-between items-center w-full px-gutter py-4 max-w-container-max mx-auto">
+<!-- Brand Logo -->
+<a class="font-headline-lg text-headline-lg text-primary italic flex items-center gap-2 group tracking-tight" href="#">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform duration-500 text-secondary-fixed" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">medical_services</span>
+                    MediBridge India
+                </a>
+<!-- Navigation Links (Web) -->
+<nav class="hidden md:flex items-center gap-gutter gap-xl">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md relative group" href="#">
+                        Treatments
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md relative group" href="#">
+                        Hospitals
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md relative group" href="#">
+                        Cost Estimator
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+</a>
+</nav>
+<!-- Trailing Action -->
+<div class="flex items-center gap-md">
+<button class="hidden md:flex items-center justify-center bg-primary text-on-primary font-label-md text-label-md px-md py-sm rounded-full hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 transform duration-300 sheen-btn">
+                        Get Started
+                    </button>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-primary p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow relative">
+<!-- Hero Section with provided image as background -->
+<section class="relative min-h-[90vh] flex items-center overflow-hidden pt-xl">
+<!-- Background Image -->
+<div class="absolute inset-0 z-0">
+<img alt="" aria-hidden="true" class="w-full h-full object-cover object-center opacity-80 scale-[1.05] transition-transform duration-100 ease-out" id="parallax-bg" src="https://lh3.googleusercontent.com/aida/AP1WRLsQ8XJBSj53Ng1YBGukhAw5B1kV-mUoQtQlcMBEiqUjIi-zKM2oMPjw4q04byTZz_wQeJhY-3iVos8yE1Nik_k7VXwSKFIHkhDMEGTlnqiifNB6R_tiqkybey2gozuR1wkucwQpJ_YoB83aOJrEpeTJzLTStikWKnKOIhZ3VCseG3ynt6Ue7s6uw6To15lPE4pGgJHSDJBjC8p7AlMovS-_UBgz5CBLOppJfmlSzLDB1EgMDKGjGoH5" style="transform: scale(1.05) translate(-1.92187px, -9.93377px);">
+<div class="absolute inset-0 bg-gradient-to-b from-surface/40 via-surface/10 to-surface/90"></div>
+</div>
+<div class="relative z-10 w-full max-w-container-max mx-auto px-gutter grid grid-cols-1 lg:grid-cols-12 gap-xl items-center">
+<!-- Hero Content (Left/Center) -->
+<div class="lg:col-span-7 flex flex-col items-start gap-lg mt-xl lg:mt-0">
+<div class="inline-flex items-center gap-2 bg-white/60 backdrop-blur-md px-sm py-xs rounded-full border border-secondary-fixed/50 animate-slide-up-1">
+<span class="material-symbols-outlined text-[16px] text-secondary" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">verified</span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Premier Medical Concierge</span>
+</div>
+<h1 class="font-headline-xl fluid-display text-primary font-bold animate-slide-up-2">
+                        World-Class Healthcare,<br>
+<span class="italic font-normal text-surface-tint">Now in India</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl leading-relaxed animate-slide-up-3">
+                        Experience unparalleled medical expertise combined with opulent care. We connect global citizens with India's elite, JCI-accredited healthcare institutions seamlessly.
+                    </p>
+<!-- Search Bar Glassmorphic -->
+<div class="w-full max-w-2xl glass-panel rounded-full p-2 flex items-center relative gold-border-gradient mt-sm animate-reveal hover:shadow-lg transition-shadow duration-500">
+<span class="material-symbols-outlined text-outline ml-4">search</span>
+<input class="flex-grow bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder:text-outline-variant px-md h-12" placeholder="Search treatments, specialists, or hospitals..." type="text">
+<button class="bg-primary text-on-primary rounded-full px-lg h-12 font-label-md text-label-md hover:bg-primary-container transition-colors shadow-md flex items-center gap-2 sheen-btn">
+                            Explore
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Trust Badges -->
+<div class="flex flex-wrap gap-4 mt-md animate-reveal">
+<div class="flex items-center gap-sm bg-white/80 backdrop-blur-sm px-4 py-3 rounded-full border border-surface-dim shadow-sm backdrop-blur-md border-white/20 trust-badge-hover cursor-default">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">local_hospital</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">JCI Accredited Hospitals</span>
+</div>
+<div class="flex items-center gap-sm bg-white/80 backdrop-blur-sm px-4 py-3 rounded-full border border-surface-dim shadow-sm backdrop-blur-md border-white/20 trust-badge-hover cursor-default">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">public</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">Top Global Doctors</span>
+</div>
+<div class="flex items-center gap-sm bg-white/80 backdrop-blur-sm px-4 py-3 rounded-full border border-surface-dim shadow-sm backdrop-blur-md border-white/20 trust-badge-hover cursor-default">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">payments</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">Multi-Currency Support</span>
+</div>
+</div>
+</div>
+<!-- Floating Widgets (Right) -->
+<div class="lg:col-span-5 relative hidden lg:block h-full min-h-[600px]">
+<!-- Widget 1: Doctor Profile -->
+<div class="absolute top-[10%] right-[10%] w-[280px] z-20 animate-glide-right">
+<div class="bg-primary text-on-primary rounded-xl p-md ambient-shadow border border-primary-container animate-[float_6s_ease-in-out_infinite] backdrop-blur-xl border-white/20 shadow-lg shimmer-hover cursor-pointer hover:border-white/40">
+<div class="flex items-start gap-4 relative z-10">
+<div class="w-16 h-16 rounded-full bg-primary-fixed overflow-hidden flex-shrink-0 border-2 border-secondary-fixed">
+<!-- Placeholder for Doctor Image -->
+<div class="w-full h-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-primary-fixed-dim">person</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-lg text-[20px] leading-tight mb-1">Dr. A. Sharma</h3>
+<p class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider mb-2">Chief Cardiologist</p>
+<div class="flex text-secondary-fixed">
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Widget 2: Cost Estimate -->
+<div class="absolute bottom-[20%] left-[5%] w-[300px] z-30 animate-glide-left">
+<div class="glass-panel rounded-xl p-md animate-[float_8s_ease-in-out_infinite_reverse] backdrop-blur-xl border-white/20 shadow-lg gold-border-gradient shimmer-hover cursor-pointer hover:border-white/50 transition-colors">
+<div class="flex justify-between items-center mb-sm relative z-10">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Est. Procedure Cost</span>
+<span class="material-symbols-outlined text-secondary-fixed-dim">info</span>
+</div>
+<div class="font-headline-lg text-[28px] text-primary mb-1 relative z-10">
+                            $1,500 <span class="font-body-md text-outline-variant ml-2 align-middle">≈ ₹1,25,000</span>
+</div>
+<div class="flex items-center gap-2 mt-sm relative z-10">
+<div class="bg-primary/10 text-primary px-2 py-1 rounded font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_down</span>
+                                60% Savings
+                            </div>
+<span class="font-body-md text-[14px] text-on-surface-variant">vs US Average</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (From JSON + Design System) -->
+<footer class="bg-surface-container-lowest dark:bg-tertiary-container border-t border-outline-variant/20 dark:border-on-tertiary-fixed-variant/20 py-lg w-full mt-auto"><div class="w-full h-0.5 bg-gradient-to-r from-transparent via-secondary-fixed/50 to-transparent mb-lg"></div>
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-gutter max-w-container-max mx-auto space-y-md md:space-y-0">
+<!-- Brand -->
+<div class="font-headline-lg text-headline-lg text-primary dark:text-primary-fixed">
+                MediBridge India
+            </div>
+<!-- Links -->
+<nav class="flex flex-wrap justify-center gap-md">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-tertiary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors hover:underline decoration-secondary-fixed/50" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-tertiary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors hover:underline decoration-secondary-fixed/50" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-tertiary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors hover:underline decoration-secondary-fixed/50" href="#">Contact</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-tertiary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors hover:underline decoration-secondary-fixed/50" href="#">Global Destinations</a>
+</nav>
+<!-- Copyright -->
+<div class="font-body-md text-body-md text-on-surface dark:text-on-tertiary-container text-sm">
+                © 2024 MediBridge India. Exquisite Medical Concierge Services.
+            </div>
+</div>
+</footer>
+<!-- Simple Float Animation via Inline CSS -->
+<style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+<!-- Script for Nav Blur on Scroll & Parallax -->
+<script>
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const bg = document.getElementById('parallax-bg');
+            // Check for prefers-reduced-motion
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                return;
+            }
+            
+            window.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 20; // Subtle movement
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                
+                // Using requestAnimationFrame for smoother performance could be done, 
+                // but direct style application with subtle values works well here.
+                bg.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+
+
+</body></html>

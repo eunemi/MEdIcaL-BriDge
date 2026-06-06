@@ -1,0 +1,258 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  PATIENT
+  DOCTOR
+  STAFF
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum VisaStatus {
+  PENDING
+  UNDER_REVIEW
+  LETTER_ISSUED
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(PATIENT)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // 1:1 Profile Relations
+  patientProfile Patient?
+  doctorProfile  Doctor?
+  adminProfile   Admin?
+}
+
+model Country {
+  id           String    @id @default(cuid())
+  name         String    @unique
+  code         String    @unique // ISO 2-letter country code (e.g. "US", "GB")
+  phoneCode    String    // Phone code (e.g. "+1", "+44")
+  currency     String    @default("USD")
+  requiresVisa Boolean   @default(true)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+
+  patients     Patient[]
+}
+
+model Patient {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  fullName            String
+  phoneNumber         String
+  passportNumber      String?  @unique
+  preferredCity       String?
+  medicalHistorySummary String?  @db.Text
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relationships
+  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  countryId          String
+  country            Country           @relation(fields: [countryId], references: [id])
+  appointments       Appointment[]
+  reports            Report[]
+  reviews            Review[]
+  visaApplications   VisaApplication[]
+
+  @@index([userId])
+  @@index([countryId])
+}
+
+model Hospital {
+  id            String   @id @default(cuid())
+  name          String
+  city          String
+  accreditation String   // JCI, NABH, etc.
+  rating        Float    @default(0.0)
+  description   String   @db.Text
+  image         String?
+  address       String
+  gallery       String   @db.Text @default("[]") // JSON string of photo urls
+  contactEmail  String
+  contactPhone  String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relationships
+  doctors       Doctor[]
+  treatments    HospitalTreatment[]
+  reviews       Review[]
+
+  @@index([city])
+  @@index([rating])
+}
+
+model Doctor {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  fullName        String
+  specialty       String
+  experienceYears Int
+  rating          Float    @default(0.0)
+  languages       String   // Comma separated values (e.g. "English, Arabic")
+  consultationFee Decimal  @db.Decimal(10, 2)
+  education       String   @db.Text
+  biography       String   @db.Text
+  certifications  String   @db.Text
+  successRate     Float    @default(0.0)
+  image           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relationships
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hospitalId      String
+  hospital        Hospital      @relation(fields: [hospitalId], references: [id])
+  appointments    Appointment[]
+  reviews         Review[]
+
+  @@index([userId])
+  @@index([hospitalId])
+  @@index([specialty])
+}
+
+model Treatment {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  category      String   // Cardiology, Orthopedics, Oncology, etc.
+  description   String   @db.Text
+  recoveryTime  String   // e.g. "2-3 weeks"
+  risks         String   @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relationships
+  hospitals     HospitalTreatment[]
+  appointments  Appointment[]
+
+  @@index([category])
+}
+
+model HospitalTreatment {
+  hospitalId  String
+  treatmentId String
+  averageCost Decimal @db.Decimal(10, 2)
+
+  // Relationships
+  hospital  Hospital  @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  treatment Treatment @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+
+  @@id([hospitalId, treatmentId])
+  @@index([hospitalId])
+  @@index([treatmentId])
+}
+
+model Appointment {
+  id              String            @id @default(cuid())
+  patientId       String
+  doctorId        String
+  treatmentId     String
+  appointmentDate DateTime
+  status          AppointmentStatus @default(PENDING)
+  consultationFee Decimal           @db.Decimal(10, 2)
+  notes           String?           @db.Text
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relationships
+  patient   Patient   @relation(fields: [patientId], references: [id], onDelete: Restrict)
+  doctor    Doctor    @relation(fields: [doctorId], references: [id], onDelete: Restrict)
+  treatment Treatment @relation(fields: [treatmentId], references: [id], onDelete: Restrict)
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([treatmentId])
+  @@index([appointmentDate])
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  patientId   String
+  fileUrl     String
+  fileName    String
+  fileType    String   // PDF, DICOM, JPEG, etc.
+  fileSize    Int      // in Bytes
+  description String?  @db.Text
+  uploadedAt  DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  patient     Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@index([patientId])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  patientId  String
+  doctorId   String?
+  hospitalId String?
+  rating     Int      // Constrained to 1-5 in business logic
+  comment    String   @db.Text
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  patient  Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctor   Doctor?   @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+  hospital Hospital? @relation(fields: [hospitalId], references: [id], onDelete: SetNull)
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([hospitalId])
+}
+
+model VisaApplication {
+  id            String     @id @default(cuid())
+  patientId     String
+  passportNum   String
+  countryOfVisa String
+  status        VisaStatus @default(PENDING)
+  documentUrl   String?
+  invitationUrl String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  // Relationships
+  patient       Patient    @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@index([patientId])
+}
+
+model Admin {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  fullName   String
+  department String   // e.g. "Visa Coordination", "Billing Support", "Core Admin"
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

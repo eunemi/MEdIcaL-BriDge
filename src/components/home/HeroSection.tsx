@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Search, ArrowRight, Verified, Building2, Globe, CreditCard, User, Star, TrendingDown, Info } from "lucide-react";
+import { Search, ArrowRight, Verified, Building2, Globe, CreditCard, Star, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "motion/react";
+import Image from "next/image";
 
 const CircularBadge = () => (
   <div className="relative w-32 h-32 md:w-40 md:h-40 bg-secondary rounded-full flex items-center justify-center shadow-2xl rotate-12 hover:scale-105 transition-transform cursor-pointer border-[3px] border-white/20">
@@ -29,6 +30,7 @@ export function HeroSection() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mql.matches) return;
@@ -48,11 +50,13 @@ export function HeroSection() {
     <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-32 pb-16 lg:pt-24 lg:pb-20">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           ref={bgRef}
           src="https://lh3.googleusercontent.com/aida/AP1WRLsQ8XJBSj53Ng1YBGukhAw5B1kV-mUoQtQlcMBEiqUjIi-zKM2oMPjw4q04byTZz_wQeJhY-3iVos8yE1Nik_k7VXwSKFIHkhDMEGTlnqiifNB6R_tiqkybey2gozuR1wkucwQpJ_YoB83aOJrEpeTJzLTStikWKnKOIhZ3VCseG3ynt6Ue7s6uw6To15lPE4pGgJHSDJBjC8p7AlMovS-_UBgz5CBLOppJfmlSzLDB1EgMDKGjGoH5"
           alt="Luxury Hospital Interior"
-          className="w-full h-full object-cover object-center opacity-80 scale-[1.05] transition-transform duration-100 ease-out"
+          fill
+          priority
+          className="object-cover object-center opacity-80 scale-[1.05] transition-transform duration-100 ease-out"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-surface/40 via-surface/10 to-surface/90" />
       </div>
@@ -73,7 +77,7 @@ export function HeroSection() {
           </h1>
 
           <p className="text-lg text-foreground/80 max-w-xl leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500">
-            Experience unparalleled medical expertise combined with opulent care. We connect global citizens with India's elite, JCI-accredited healthcare institutions seamlessly.
+            Experience unparalleled medical expertise combined with opulent care. We connect global citizens with India&apos;s elite, JCI-accredited healthcare institutions seamlessly.
           </p>
 
           {/* Search Bar Glassmorphic */}
@@ -110,7 +114,7 @@ export function HeroSection() {
             >
               <div className="w-44 md:w-56 aspect-[3/3.5] bg-white/30 backdrop-blur-xl border border-white/50 rounded-[2rem] p-5 flex flex-col items-center justify-center rotate-[6deg] shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:rotate-0 transition-transform duration-500">
                 <div className="w-20 h-20 md:w-28 md:h-28 bg-primary rounded-full flex items-center justify-center mb-4 shadow-inner border-[3px] border-white overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&auto=format&fit=crop&q=60" alt="Dr. A. Sharma" className="w-full h-full object-cover" />
+                  <Image src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&auto=format&fit=crop&q=60" alt="Dr. A. Sharma" fill sizes="120px" className="object-cover" />
                 </div>
                 <div className="text-center mt-2 w-full">
                   <p className="font-heading font-bold text-lg md:text-xl text-primary">Dr. A. Sharma</p>
@@ -132,7 +136,7 @@ export function HeroSection() {
             >
               <div className="w-44 md:w-56 aspect-[3/3.5] bg-white/30 backdrop-blur-xl border border-white/50 rounded-[2rem] p-5 flex flex-col items-center justify-center rotate-[-8deg] shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:rotate-0 transition-transform duration-500">
                 <div className="w-20 h-20 md:w-28 md:h-28 bg-primary rounded-full flex items-center justify-center mb-4 shadow-inner border-[3px] border-white overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&auto=format&fit=crop&q=60" alt="Dr. S. Patel" className="w-full h-full object-cover object-top" />
+                  <Image src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&auto=format&fit=crop&q=60" alt="Dr. S. Patel" fill sizes="120px" className="object-cover object-top" />
                 </div>
                 <div className="text-center mt-2 w-full">
                   <p className="font-heading font-bold text-lg md:text-xl text-primary">Dr. S. Patel</p>

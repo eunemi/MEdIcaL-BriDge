@@ -46,7 +46,7 @@ export function Testimonials() {
               </div>
               <CardContent className="p-8 pt-4">
                 <p className="text-foreground/80 italic leading-relaxed mb-8">
-                  "{t.quote}"
+                  &quot;{t.quote}&quot;
                 </p>
                 <div className="border-t border-border/50 pt-4">
                   <h4 className="font-bold text-primary">{t.author}</h4>

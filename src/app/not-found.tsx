@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HeartPulse, ArrowRight, Home, Search, Phone } from "lucide-react";
+import { HeartPulse, ArrowRight, Home, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
@@ -22,7 +22,7 @@ export default function NotFound() {
           Page Not Found
         </h1>
         <p className="text-foreground/70 mb-10 leading-relaxed max-w-sm mx-auto">
-          The page you're looking for doesn't exist or has been moved. Let's get you back on track.
+          The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s get you back on track.
         </p>
 
         {/* Actions */}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import {
   CheckCircle2, Clock, Phone, ArrowRight, Loader2,
   HeartPulse, Users, Building2, Star,
@@ -148,7 +147,7 @@ export default function ConsultationPage() {
             {/* Quote card */}
             <div className="bg-accent rounded-2xl p-6 border border-primary/10">
               <p className="italic text-sm text-foreground/80 leading-relaxed mb-4">
-                "MediBridge arranged everything — hospital, visa letter, airport pickup, and follow-up care. My CABG in Chennai cost 1/5th of the US quote."
+                &quot;MediBridge arranged everything — hospital, visa letter, airport pickup, and follow-up care. My CABG in Chennai cost 1/5th of the US quote.&quot;
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">

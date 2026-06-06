@@ -65,10 +65,12 @@ export function Navbar() {
             <ChevronDown className="size-3.5 text-muted-foreground transition-transform group-hover:translate-y-0.5" />
           </div>
           
-          <Button variant="outline" className="h-10 gap-2 rounded-full border-primary/15 bg-white/45 px-4 text-primary shadow-none hover:bg-white/70">
-            <User className="size-4" />
-            Portal
-          </Button>
+          <Link href="/login">
+            <Button variant="outline" className="h-10 gap-2 rounded-full border-primary/15 bg-white/45 px-4 text-primary shadow-none hover:bg-white/70">
+              <User className="size-4" />
+              Portal
+            </Button>
+          </Link>
           
           <Link href="/consultation">
             <Button className="h-10 rounded-full bg-primary px-5 text-sm text-primary-foreground shadow-[0_12px_24px_-18px_rgb(0_52_43_/_90%)] hover:bg-primary-container">
@@ -104,10 +106,12 @@ export function Navbar() {
             </Link>
           ))}
           <div className="my-1 h-px bg-border/70" />
-          <Button variant="outline" className="h-10 w-full justify-center gap-2 rounded-full border-primary/15 bg-white/60 text-primary">
-            <User className="size-4" />
-            Patient Portal
-          </Button>
+          <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full">
+            <Button variant="outline" className="h-10 w-full justify-center gap-2 rounded-full border-primary/15 bg-white/60 text-primary">
+              <User className="size-4" />
+              Patient Portal
+            </Button>
+          </Link>
           <Link href="/consultation" onClick={() => setIsMobileMenuOpen(false)} className="w-full">
             <Button className="h-10 w-full rounded-full bg-primary text-primary-foreground hover:bg-primary-container">
               Book Consultation

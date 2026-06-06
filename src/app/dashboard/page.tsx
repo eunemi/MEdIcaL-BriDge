@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   Calendar, FileText, User, Settings, LogOut, ArrowRight,
@@ -26,8 +26,12 @@ export default function DashboardPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [mounted, setMounted] = useState(false);
+  const [reports, setReports] = useState(MOCK_REPORTS);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -43,6 +47,45 @@ export default function DashboardPage() {
     await logout();
     router.push("/");
   }
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        // Add to local state mock reports
+        const newReport = {
+          id: `rep-${Date.now()}`,
+          patientId: user.userId,
+          fileName: data.fileName,
+          fileType: "application/pdf", // simplified
+          fileSize: data.size,
+          description: "Recently uploaded document",
+          uploadedAt: new Date().toISOString(),
+          fileUrl: data.url,
+        };
+        setReports([newReport, ...reports]);
+      } else {
+        alert("Upload failed: " + data.error);
+      }
+    } catch (err) {
+      alert("An error occurred during upload.");
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
 
   const upcomingCount = MOCK_APPOINTMENTS.filter(
     (a) => a.status === "CONFIRMED" || a.status === "PENDING"
@@ -257,14 +300,26 @@ export default function DashboardPage() {
               <p className="text-sm text-muted-foreground mb-5">
                 PDF, JPG, PNG · Max 20MB each · All files are encrypted
               </p>
-              <Button variant="outline" className="rounded-full border-primary/20 text-primary hover:bg-primary hover:text-white">
-                Choose Files
+              <input
+                type="file"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleUpload}
+                accept=".pdf,.png,.jpg,.jpeg"
+              />
+              <Button 
+                variant="outline" 
+                className="rounded-full border-primary/20 text-primary hover:bg-primary hover:text-white"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
+              >
+                {isUploading ? "Uploading..." : "Choose Files"}
               </Button>
             </div>
 
             <h3 className="font-heading text-lg font-semibold text-primary mb-4">Uploaded Reports</h3>
             <div className="space-y-3">
-              {MOCK_REPORTS.map((rep) => (
+              {reports.map((rep) => (
                 <div key={rep.id} className="bg-card border border-border/50 rounded-2xl p-5 flex items-center gap-5">
                   <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
                     <FileText className="w-6 h-6 text-blue-600" />
@@ -276,9 +331,11 @@ export default function DashboardPage() {
                       {new Date(rep.uploadedAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <Button size="sm" variant="outline" className="rounded-full shrink-0 border-primary/20 text-primary hover:bg-primary hover:text-white">
-                    Download
-                  </Button>
+                  <a href={rep.fileUrl} target="_blank" rel="noreferrer">
+                    <Button size="sm" variant="outline" className="rounded-full shrink-0 border-primary/20 text-primary hover:bg-primary hover:text-white">
+                      Download
+                    </Button>
+                  </a>
                 </div>
               ))}
             </div>

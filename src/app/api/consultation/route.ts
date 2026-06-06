@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,6 +21,30 @@ export async function POST(request: NextRequest) {
       medicalHistory: medicalHistory ? "provided" : "not provided",
       submittedAt: new Date().toISOString(),
     });
+
+    if (resend) {
+      try {
+        await resend.emails.send({
+          from: "MediBridge <noreply@medibridge.com>", // You'd need a verified domain in Resend
+          to: [email],
+          subject: "Consultation Request Received - MediBridge",
+          html: `
+            <div style="font-family: sans-serif; padding: 20px;">
+              <h2>Hello ${fullName},</h2>
+              <p>Thank you for reaching out to MediBridge India.</p>
+              <p>We have received your request regarding <strong>${treatmentNeeded}</strong>.</p>
+              <p>Our medical concierge team will review your details and contact you within 24 hours at ${phone}.</p>
+              <br/>
+              <p>Best regards,<br/>The MediBridge Team</p>
+            </div>
+          `,
+        });
+      } catch (emailError) {
+        console.error("[RESEND EMAIL ERROR]", emailError);
+      }
+    } else {
+      console.warn("RESEND_API_KEY is not set. Skipping confirmation email.");
+    }
 
     return NextResponse.json({
       success: true,

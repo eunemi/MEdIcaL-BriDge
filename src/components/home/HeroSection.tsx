@@ -113,7 +113,7 @@ export function HeroSection() {
               className="absolute top-[0%] right-[5%] z-20 pointer-events-auto"
             >
               <div className="w-44 md:w-56 aspect-[3/3.5] bg-white/30 backdrop-blur-xl border border-white/50 rounded-[2rem] p-5 flex flex-col items-center justify-center rotate-[6deg] shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:rotate-0 transition-transform duration-500">
-                <div className="w-20 h-20 md:w-28 md:h-28 bg-primary rounded-full flex items-center justify-center mb-4 shadow-inner border-[3px] border-white overflow-hidden">
+                <div className="w-20 h-20 md:w-28 md:h-28 bg-primary rounded-full flex items-center justify-center mb-4 shadow-inner border-[3px] border-white overflow-hidden relative">
                   <Image src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&auto=format&fit=crop&q=60" alt="Dr. A. Sharma" fill sizes="120px" className="object-cover" />
                 </div>
                 <div className="text-center mt-2 w-full">
@@ -135,7 +135,7 @@ export function HeroSection() {
               className="absolute bottom-[0%] left-[5%] z-30 pointer-events-auto"
             >
               <div className="w-44 md:w-56 aspect-[3/3.5] bg-white/30 backdrop-blur-xl border border-white/50 rounded-[2rem] p-5 flex flex-col items-center justify-center rotate-[-8deg] shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:rotate-0 transition-transform duration-500">
-                <div className="w-20 h-20 md:w-28 md:h-28 bg-primary rounded-full flex items-center justify-center mb-4 shadow-inner border-[3px] border-white overflow-hidden">
+                <div className="w-20 h-20 md:w-28 md:h-28 bg-primary rounded-full flex items-center justify-center mb-4 shadow-inner border-[3px] border-white overflow-hidden relative">
                   <Image src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&auto=format&fit=crop&q=60" alt="Dr. S. Patel" fill sizes="120px" className="object-cover object-top" />
                 </div>
                 <div className="text-center mt-2 w-full">

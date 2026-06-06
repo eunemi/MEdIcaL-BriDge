@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
       await mkdir(uploadDir, { recursive: true });
     } catch (err) {
       // Directory might already exist, which is fine
+      console.warn("Upload dir check:", err instanceof Error ? err.message : String(err));
     }
 
     const filepath = path.join(uploadDir, filename);

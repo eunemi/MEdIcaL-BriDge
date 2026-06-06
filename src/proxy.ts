@@ -21,6 +21,7 @@ export function proxy(request: NextRequest) {
       }
     }
   } catch (err) {
+    console.error("Proxy Decode Error:", err);
     // Invalid token format
     return NextResponse.redirect(new URL('/login', request.url));
   }

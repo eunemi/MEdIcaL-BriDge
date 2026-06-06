@@ -80,6 +80,7 @@ export default function DashboardPage() {
         alert("Upload failed: " + data.error);
       }
     } catch (err) {
+      console.error("Dashboard Upload Error:", err);
       alert("An error occurred during upload.");
     } finally {
       setIsUploading(false);
